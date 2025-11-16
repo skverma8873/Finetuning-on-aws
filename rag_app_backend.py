@@ -30,14 +30,101 @@ vector_store = FAISS(
     index_to_docstore_id={}
 )
 
-dummy_docs = [
-    Document(page_content="LangChain is a framework for building LLM applications.", metadata={"source": "wiki"}),
-    Document(page_content="RAG stands for Retrieval-Augmented Generation.", metadata={"source": "rag"}),
-    Document(page_content="FAISS is a high-performance vector search engine.", metadata={"source": "vector"}),
-    Document(page_content="TinyLlama is a 1.1B model fine-tuned for text generation.", metadata={"source": "model"}),
+from langchain_core.documents import Document
+
+docs = [
+
+    # --------- METFORMIN ----------
+    Document(
+        page_content=(
+            "Metformin reduces hepatic gluconeogenesis primarily through "
+            "AMP-activated protein kinase (AMPK) activation. It improves "
+            "insulin sensitivity, increases peripheral glucose uptake, and "
+            "reduces intestinal glucose absorption. Metformin is first-line "
+            "therapy for type 2 diabetes due to its efficacy, safety, and "
+            "cardiovascular benefits."
+        ),
+        metadata={"source": "metformin", "topic": "diabetes"}
+    ),
+
+    Document(
+        page_content=(
+            "Non-glycemic benefits of Metformin include improved cardiovascular "
+            "outcomes, reduced inflammation, and potential anti-neoplastic effects "
+            "via mTOR pathway modulation. Studies suggest Metformin may reduce risk "
+            "of certain cancers and delay aging-related metabolic decline."
+        ),
+        metadata={"source": "metformin", "topic": "benefits"}
+    ),
+
+    # --------- ATORVASTATIN + EZETIMIBE ----------
+    Document(
+        page_content=(
+            "Atorvastatin inhibits HMG-CoA reductase in the liver, reducing "
+            "endogenous cholesterol synthesis. Ezetimibe blocks intestinal "
+            "cholesterol absorption by inhibiting the NPC1L1 transporter. "
+            "Combining Atorvastatin with Ezetimibe produces additive LDL-C reduction "
+            "and is clinically beneficial when monotherapy is insufficient."
+        ),
+        metadata={"source": "lipid", "topic": "statin-ezetimibe"}
+    ),
+
+    Document(
+        page_content=(
+            "Clinical trials have shown that adding Ezetimibe to statin therapy "
+            "results in additional 15–25% reduction in LDL cholesterol. This combination "
+            "is especially useful in patients with familial hypercholesterolemia or those "
+            "unable to tolerate high-intensity statins."
+        ),
+        metadata={"source": "lipid", "topic": "cholesterol"}
+    ),
+
+    # --------- MRNA VACCINES ----------
+    Document(
+        page_content=(
+            "mRNA vaccines enable rapid vaccine development due to their modular design. "
+            "They deliver mRNA encoding viral antigens inside lipid nanoparticles (LNPs). "
+            "Once inside host cells, mRNA is translated to produce the antigen, triggering "
+            "strong antibody and T-cell responses. The technology allows fast updates for "
+            "emerging variants such as BQ.1 and XBB.1.5."
+        ),
+        metadata={"source": "mrna", "topic": "vaccines"}
+    ),
+
+    Document(
+        page_content=(
+            "Research on next-generation mRNA vaccines includes self-amplifying mRNA, "
+            "thermostable formulations, and mucosal delivery routes. These advancements "
+            "aim to improve global distribution, reduce refrigeration needs, and enhance "
+            "immune protection across populations."
+        ),
+        metadata={"source": "mrna", "topic": "research"}
+    ),
+
+    # --------- AI IN PHARMA R&D ----------
+    Document(
+        page_content=(
+            "Artificial intelligence (AI) accelerates pharmaceutical R&D by improving "
+            "target identification, structure-based drug design, and protein–ligand "
+            "affinity prediction. Deep learning models can screen billions of compounds "
+            "in silico, significantly reducing early discovery timelines."
+        ),
+        metadata={"source": "ai-pharma", "topic": "research"}
+    ),
+
+    Document(
+        page_content=(
+            "Challenges in AI-driven drug discovery include model interpretability, "
+            "dataset bias, reproducibility, and regulatory approval for AI-designed molecules. "
+            "Despite benefits in docking, screening, and lead optimization, validation in "
+            "wet-lab settings remains essential."
+        ),
+        metadata={"source": "ai-pharma", "topic": "challenges"}
+    ),
+
 ]
 
-vector_store.add_documents(dummy_docs)
+vector_store.add_documents(docs)
 
 retriever = vector_store.as_retriever(
     search_type="mmr",
